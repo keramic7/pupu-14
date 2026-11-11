@@ -1,6 +1,6 @@
 # Практическая работа №14: Структуры данных (struct) в C#, размерные типы и оптимизация памяти
 
-Шаг 1
+Шаг 1. Неизменяемая структура GeoCoordinate
 
 <img width="1919" height="1007" alt="image" src="https://github.com/user-attachments/assets/81db9eb1-c9f7-4117-a4df-61ce40d5a87a" />
 
@@ -64,7 +64,7 @@ namespace ConsoleApp14
     }
 }
 ~~~
-Шаг 2
+Шаг 2. Изменяемая структура Vector3D
 
 <img width="1919" height="1003" alt="image" src="https://github.com/user-attachments/assets/0518bc24-b86a-43db-85c2-b3fea797e36e" />
 
@@ -142,3 +142,47 @@ namespace ConsoleApp14.service
     }
 }
 ~~~
+Шаг 3. Составная структура DroneState
+
+<img width="1919" height="1003" alt="image" src="https://github.com/user-attachments/assets/b752f11e-f72b-4fa5-923e-c5de4eea50f2" />
+
+~~~C#
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp14.service
+{
+    public struct DroneState
+    {
+        #region Элементы структуры
+        public int DroneId { get; } // неизменяемый номер борта
+        public GeoCoordinate Position { get; set; } // текущая координата (вложенная структура)
+        public Vector3D Velocity { get; set; } //вектор скорости (вложенная структура)
+        public int BatteryPercent { get; set; } //процент заряда (0–100)
+        public bool IsGrounded => Position.Latitude == 0 && Position.Longitude == 0; // свойство статуса
+        #endregion
+
+        #region Конструктор
+        /// <summary>
+        /// Принимает id, position, velocity и начальный заряд, выполняя полную инициализацию.
+        /// </summary>
+        /// <param name="droneId">Id</param>
+        /// <param name="position">Позиция</param>
+        /// <param name="velocity">Скорость</param>
+        /// <param name="batteryPercent">Процент батареи</param>
+        public DroneState(int droneId, GeoCoordinate position, Vector3D velocity, int batteryPercent)
+        {
+            DroneId = droneId;
+            Position = position;
+            Velocity = velocity;
+
+            BatteryPercent = Math.Max(0, Math.Min(100, batteryPercent)); // Ограничиваем заряд диапазоном 0–100
+        }
+        #endregion
+    }
+}
+~~~
+Шаг 4. Расчетный класс TelemetryProcessor
