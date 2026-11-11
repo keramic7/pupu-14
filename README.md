@@ -1,6 +1,7 @@
 # Практическая работа №14: Структуры данных (struct) в C#, размерные типы и оптимизация памяти
 
 Шаг 1
+
 <img width="1919" height="1007" alt="image" src="https://github.com/user-attachments/assets/81db9eb1-c9f7-4117-a4df-61ce40d5a87a" />
 
 ~~~C#
@@ -62,3 +63,82 @@ namespace ConsoleApp14
         #endregion
     }
 }
+~~~
+Шаг 2
+
+<img width="1919" height="1003" alt="image" src="https://github.com/user-attachments/assets/0518bc24-b86a-43db-85c2-b3fea797e36e" />
+
+~~~C#
+<img width="1919" height="1004" alt="image" src="https://github.com/user-attachments/assets/3f700e1d-3e03-47bc-87b2-1ddbc405fd1e" />
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp14.service
+{
+    public struct Vector3D
+    {
+        #region Открытые поля или автосвойства
+        public double X;
+        public double Y;
+        public double Z;
+        #endregion
+
+        #region Конструктор
+        /// <summary>
+        /// Инициализирует все 3 оси
+        /// </summary>
+        /// <param name="x">Ось X</param>
+        /// <param name="y">Ось Y</param>
+        /// <param name="z">Ось Z</param>
+        public Vector3D(double x, double y, double z)
+        {  X = x;
+           Y = y;
+           Z = z; 
+        }
+        #endregion
+
+        #region Вычисляемое свойство
+        public double Length => Math.Sqrt(X * X + Y * Y + Z * Z);
+        #endregion
+
+        #region Метод экземпляра 1
+        /// <summary>
+        /// Прибавляет координаты другого вектора к текущему объекту.
+        /// </summary>
+        /// <param name="other">Другой вектор</param>
+        public void Add(Vector3D other)
+        {
+            X += other.X;
+            Y += other.Y;
+            Z += other.Z;
+        }
+        #endregion
+
+        #region Метод экземпляра 2
+        /// <summary>
+        /// Умножает каждую ось на коэффициент.
+        /// </summary>
+        /// <param name="factor">Коэффициент</param>
+        public void Scale(double factor)
+        {  X *= factor;
+           Y *= factor;
+           Z *= factor;
+        }
+        #endregion
+
+        #region Переопределенный метод
+        /// <summary>
+        /// Выводит $"[X: {X:F1}, Y: {Y:F1}, Z: {Z:F1}]".
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"[X: {X:F1}, Y: {Y:F1}, Z: {Z:F1}]";
+        }
+        #endregion
+    }
+}
+~~~
