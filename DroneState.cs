@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +31,14 @@ namespace ConsoleApp14.service
             Velocity = velocity;
 
             BatteryPercent = Math.Max(0, Math.Min(100, batteryPercent)); // Ограничиваем заряд диапазоном 0–100
+        }
+        #endregion
+
+        #region Метод для корректного вывода в консоль
+        public override string ToString()
+        {
+            return $"Drone #{DroneId} | Pos: [Широта: {Position.Latitude:F4}, Долгота: {Position.Longitude:F4}] | " +
+                   $"Vel: [{Velocity.X:F1}, {Velocity.Y:F1}, {Velocity.Z:F1}] | Batt: {BatteryPercent}% | Grounded: {IsGrounded}";
         }
         #endregion
     }
